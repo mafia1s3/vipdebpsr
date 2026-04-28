@@ -106,6 +106,36 @@
       color: #b44982;
     }
 
+    .past-flow {
+      min-height: 48px;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 1000;
+      color: #7b5bcc;
+      background: #f4efff;
+      border: 2px solid #cbb7ff;
+      border-radius: 18px;
+      line-height: 1.6;
+    }
+
+    .past-flow-label {
+      color: #ff6fb3;
+      margin-right: 6px;
+    }
+
+    .past-flow-number {
+      display: inline-block;
+      color: #6f83ff;
+      letter-spacing: 0.12em;
+      margin: 0 4px;
+    }
+
+    .past-flow-arrow {
+      color: #ff9f1c;
+      margin: 0 4px;
+    }
+
     .question {
       text-align: center;
       padding: 18px;
@@ -302,10 +332,6 @@
       padding-left: 1.4em;
     }
 
-    .sparkle {
-      color: #ffb800;
-    }
-
     @media (max-width: 560px) {
       body {
         padding: 10px;
@@ -366,12 +392,18 @@
         <div class="badge badge-mode" id="modeBadge">1回目は1111だよ</div>
       </div>
 
+      <div class="past-flow" id="pastFlow">
+        <span class="past-flow-label">いままで：</span>まだないよ
+      </div>
+
       <div class="question">
         <div class="question-label" id="questionLabel">このすうじを入れてね</div>
 
         <div class="number-area" id="numberArea">
           <div class="number">1 1 1 1</div>
         </div>
+
+        <div class="guide" id="guideText">せいかいすうをくりっく</div>
       </div>
 
       <div class="buttons-wrap">
@@ -389,8 +421,6 @@
         <button class="control back" onclick="backStep()">もどる</button>
         <button class="control reset" onclick="resetGame()">リセット</button>
       </div>
-
-      <div class="mini-log" id="miniLog">まだなにも押してないよ</div>
     </section>
 
     <section class="card help-card">
@@ -398,7 +428,7 @@
       <ul>
         <li>さいしょは <b>1111</b> を入れるよ。</li>
         <li>せいかいすうを 0〜4 からくりっく。</li>
-        <li>つぎのすうじが同じ場所に出るよ。</li>
+        <li>上に、いままで入れたすうじが <b>1111 ⇒ 1122</b> みたいに出るよ。</li>
         <li>こたえが2こあるときは、だめならつぎのこうほを入れてね。</li>
       </ul>
     </section>
@@ -534,6 +564,7 @@
       const miniLog = document.getElementById("miniLog");
 
       turnBadge.textContent = `${state.turn}回目`;
+      renderPastFlow();
 
       if (state.error) {
         modeBadge.textContent = "まちがってるかも";
@@ -579,6 +610,24 @@
       clickCaption.textContent = "せいかいすうをくりっく";
       setButtonsDisabled(false);
       miniLog.innerHTML = makeLogText();
+    }
+
+    function renderPastFlow() {
+      const pastFlow = document.getElementById("pastFlow");
+      const enteredNumbers = state.logs.map(log => log.guess);
+
+      if (enteredNumbers.length === 0) {
+        pastFlow.innerHTML = `<span class="past-flow-label">いままで：</span>まだないよ`;
+        return;
+      }
+
+      pastFlow.innerHTML = `
+        <span class="past-flow-label">いままで：</span>
+        ${enteredNumbers.map((number, index) => {
+          const arrow = index === 0 ? "" : `<span class="past-flow-arrow">⇒</span>`;
+          return `${arrow}<span class="past-flow-number">${formatNumber(number)}</span>`;
+        }).join("")}
+      `;
     }
 
     function makeLogText() {
