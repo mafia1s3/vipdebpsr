@@ -2,270 +2,277 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>蝕花の残影 数字入力ギミック解読</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>蝕花の残影 数字入力ギミック</title>
+
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #f7f7f7;
-      margin: 0;
-      padding: 24px;
-      color: #222;
+    * {
+      box-sizing: border-box;
     }
 
-    .container {
-      max-width: 980px;
+    body {
+      margin: 0;
+      padding: 16px;
+      background: #0b0f17;
+      color: #f5f7ff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .app {
+      max-width: 680px;
       margin: 0 auto;
-      background: #fff;
-      border: 3px solid #222;
-      padding: 24px;
-      box-shadow: 4px 4px 0 #ccc;
+    }
+
+    .card {
+      background: #151a24;
+      border: 1px solid #2b3548;
+      border-radius: 16px;
+      padding: 22px 14px;
+      margin-bottom: 12px;
     }
 
     h1 {
+      margin: 0 0 8px;
       text-align: center;
-      font-size: 32px;
-      margin: 0;
-      letter-spacing: 0.08em;
+      font-size: 24px;
+      line-height: 1.4;
     }
 
-    .sub {
+    .desc {
       text-align: center;
+      color: #b9c3d8;
       font-size: 14px;
-      margin: 6px 0 24px;
+      line-height: 1.7;
     }
 
-    .panel {
-      border: 2px solid #222;
-      margin-bottom: 20px;
-    }
-
-    .panel-title {
-      background: #f1c232;
+    .turn-label {
+      text-align: center;
+      color: #37ffd0;
       font-weight: bold;
-      padding: 10px;
-      border-bottom: 2px solid #222;
-      font-size: 20px;
+      margin-bottom: 8px;
     }
 
-    .row {
+    .number {
+      text-align: center;
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: #5d94ff;
+      margin-bottom: 16px;
+    }
+
+    .buttons {
       display: grid;
-      grid-template-columns: 160px 1fr;
-      border-bottom: 1px solid #aaa;
-    }
-
-    .row:last-child {
-      border-bottom: none;
-    }
-
-    .label {
-      background: #fff2cc;
-      padding: 12px;
-      font-weight: bold;
-      border-right: 1px solid #aaa;
-    }
-
-    .content {
-      padding: 12px;
-    }
-
-    input, select, button {
-      font-size: 18px;
-      padding: 8px;
-      margin: 4px;
-    }
-
-    input[type="text"] {
-      width: 110px;
-      text-align: center;
-      font-weight: bold;
-      letter-spacing: 0.2em;
-    }
-
-    select {
-      width: 80px;
-      text-align: center;
-      font-weight: bold;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
     }
 
     button {
-      cursor: pointer;
-      font-weight: bold;
-      background: #3c78d8;
+      border: 0;
+      border-radius: 12px;
+      padding: 18px 6px;
+      font-size: 22px;
+      font-weight: 800;
       color: white;
-      border: 2px solid #222;
-      border-radius: 4px;
+      background: #375aa0;
+      cursor: pointer;
     }
 
     button:hover {
-      background: #1155cc;
+      background: #4870c4;
     }
 
-    .result {
-      border: 3px solid #222;
-      background: #e06666;
-      color: #000;
-      padding: 16px;
-      font-size: 24px;
-      font-weight: bold;
+    button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .note {
       text-align: center;
-      margin-top: 20px;
+      color: #c9d3e8;
+      font-size: 14px;
+      margin-top: 14px;
+      line-height: 1.7;
+    }
+
+    .result-title {
+      text-align: center;
+      font-size: 16px;
+      color: #37ffd0;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .answer {
-      font-size: 42px;
-      letter-spacing: 0.4em;
-      margin-top: 12px;
+      text-align: center;
+      font-size: 54px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      color: #ffdf5d;
+      margin: 12px 0;
     }
 
-    .candidates {
+    .candidate-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
       justify-content: center;
+      gap: 8px;
       margin-top: 12px;
     }
 
     .candidate {
-      border: 2px solid #222;
-      background: #fff;
-      padding: 8px 14px;
-      font-size: 24px;
+      background: #20283a;
+      border: 1px solid #3a4660;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 20px;
       font-weight: bold;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.14em;
     }
 
-    .hint {
-      background: #d9ead3;
-      border: 2px solid #38761d;
-      padding: 12px;
-      margin-top: 12px;
+    .history {
+      display: grid;
+      gap: 8px;
+    }
+
+    .history-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 80px;
+      gap: 8px;
+      align-items: center;
+      background: #111620;
+      border: 1px solid #2b3548;
+      border-radius: 10px;
+      padding: 10px;
       font-weight: bold;
     }
 
-    .warn {
-      background: #fff2cc;
-      border: 2px solid #bf9000;
-      padding: 12px;
-      margin-top: 12px;
-      font-weight: bold;
+    .history-turn {
+      color: #37ffd0;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 24px;
-      background: #fff;
+    .history-num {
+      text-align: center;
+      color: #8fb2ff;
+      letter-spacing: 0.14em;
+      font-size: 20px;
     }
 
-    th, td {
-      border: 1px solid #222;
-      padding: 8px;
+    .history-hit {
+      text-align: right;
+      color: #ffdf5d;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .reset {
+      background: #40495f;
+    }
+
+    .reset:hover {
+      background: #56627c;
+    }
+
+    .error {
+      color: #ff7777;
       text-align: center;
       font-weight: bold;
+      line-height: 1.7;
     }
 
-    th {
-      background: #f1c232;
-    }
-
-    .blue {
-      background: #cfe2f3;
-    }
-
-    .red {
-      background: #e06666;
-    }
-
-    .small {
+    .footer {
+      text-align: center;
+      color: #9eabc2;
       font-size: 13px;
-      font-weight: normal;
+    }
+
+    @media (max-width: 520px) {
+      .number {
+        font-size: 44px;
+      }
+
+      .answer {
+        font-size: 44px;
+      }
+
+      button {
+        font-size: 20px;
+        padding: 16px 4px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>蝕花の残影　数字入力ギミック解読</h1>
-    <div class="sub">数字は 1 / 2 の4桁。入力した数字に対して「正解数」を入れると候補を絞り込みます。</div>
-
-    <div class="panel">
-      <div class="panel-title">手順</div>
-
-      <div class="row">
-        <div class="label">1回目</div>
-        <div class="content">
-          <input id="guess1" type="text" value="1111" maxlength="4">
-          正解数
-          <select id="hit1">
-            <option value="">未入力</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="label">2回目</div>
-        <div class="content">
-          <input id="guess2" type="text" value="1122" maxlength="4">
-          正解数
-          <select id="hit2">
-            <option value="">未入力</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="label">3回目</div>
-        <div class="content">
-          <input id="guess3" type="text" value="1212" maxlength="4">
-          正解数
-          <select id="hit3">
-            <option value="">未入力</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
+  <div class="app">
+    <div class="card">
+      <h1>蝕花の残影<br>数字入力ギミック</h1>
+      <div class="desc">
+        1回目は必ず <b>1111</b>。<br>
+        表示された数字を入力して、出た成功数を押してください。
       </div>
     </div>
 
-    <button onclick="solve()">解読する</button>
-    <button onclick="resetForm()">リセット</button>
+    <div class="card" id="mainCard">
+      <div class="turn-label" id="turnLabel">1回目</div>
+      <div class="number" id="currentGuess">1111</div>
 
-    <div id="message"></div>
-    <div id="result" class="result" style="display:none;"></div>
+      <div class="buttons" id="hitButtons">
+        <button onclick="inputHit(0)">0</button>
+        <button onclick="inputHit(1)">1</button>
+        <button onclick="inputHit(2)">2</button>
+        <button onclick="inputHit(3)">3</button>
+        <button onclick="inputHit(4)">4</button>
+      </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>1回目</th>
-          <th class="blue">正解数</th>
-          <th>2回目</th>
-          <th class="blue">正解数</th>
-          <th>3回目</th>
-          <th class="blue">正解数</th>
-          <th class="red">最終的な答え</th>
-        </tr>
-      </thead>
-      <tbody id="patternTable"></tbody>
-    </table>
+      <div class="note" id="note">
+        成功数を押してください。<br>
+        有効：0 / 1 / 2 / 3 / 4
+      </div>
+    </div>
+
+    <div class="card" id="resultCard" style="display:none;">
+      <div class="result-title" id="resultTitle"></div>
+      <div id="resultBody"></div>
+    </div>
+
+    <div class="card" id="historyCard" style="display:none;">
+      <div class="result-title">入力履歴</div>
+      <div class="history" id="history"></div>
+    </div>
+
+    <div class="card">
+      <div class="controls">
+        <button class="reset" onclick="resetGame()">リセット</button>
+      </div>
+    </div>
+
+    <div class="card footer">
+      1と2だけで構成される4桁の全16通りから自動で候補を絞り込みます。
+    </div>
   </div>
 
   <script>
-    const ALL_CANDIDATES = generateCandidates();
+    const allAnswers = createAllAnswers();
 
-    function generateCandidates() {
-      const result = [];
+    const fixedGuesses = [
+      "1111",
+      "1122",
+      "1212",
+      "1221"
+    ];
+
+    let turn = 0;
+    let currentGuess = fixedGuesses[0];
+    let candidates = [...allAnswers];
+    let logs = [];
+
+    function createAllAnswers() {
+      const list = [];
 
       for (let i = 0; i < 16; i++) {
         let value = "";
@@ -274,13 +281,13 @@
           value += ((i >> bit) & 1) === 0 ? "1" : "2";
         }
 
-        result.push(value);
+        list.push(value);
       }
 
-      return result;
+      return list;
     }
 
-    function countHit(answer, guess) {
+    function countSuccess(answer, guess) {
       let count = 0;
 
       for (let i = 0; i < 4; i++) {
@@ -292,117 +299,58 @@
       return count;
     }
 
-    function isValidNumber(value) {
-      return /^[12]{4}$/.test(value);
-    }
+    function inputHit(hit) {
+      logs.push({
+        turn: turn + 1,
+        guess: currentGuess,
+        hit: hit
+      });
 
-    function solve() {
-      const guesses = [
-        {
-          value: document.getElementById("guess1").value.trim(),
-          hit: document.getElementById("hit1").value
-        },
-        {
-          value: document.getElementById("guess2").value.trim(),
-          hit: document.getElementById("hit2").value
-        },
-        {
-          value: document.getElementById("guess3").value.trim(),
-          hit: document.getElementById("hit3").value
-        }
-      ];
+      candidates = candidates.filter(answer => {
+        return countSuccess(answer, currentGuess) === hit;
+      });
 
-      const message = document.getElementById("message");
-      const result = document.getElementById("result");
-
-      message.innerHTML = "";
-      result.style.display = "none";
-      result.innerHTML = "";
-
-      let candidates = [...ALL_CANDIDATES];
-
-      for (const guess of guesses) {
-        if (guess.hit === "") {
-          continue;
-        }
-
-        if (!isValidNumber(guess.value)) {
-          message.innerHTML = `<div class="warn">入力数字は 1 と 2 だけの4桁にしてください。</div>`;
-          return;
-        }
-
-        const hitNumber = Number(guess.hit);
-
-        candidates = candidates.filter(answer => {
-          return countHit(answer, guess.value) === hitNumber;
-        });
-      }
+      renderHistory();
 
       if (candidates.length === 0) {
-        result.style.display = "block";
-        result.innerHTML = `
-          候補なし
-          <div class="small">入力した正解数のどこかが間違っている可能性があります。</div>
-        `;
+        showError();
+        disableButtons();
         return;
       }
 
       if (candidates.length === 1) {
-        result.style.display = "block";
-        result.innerHTML = `
-          最終的な答え
-          <div class="answer">${formatAnswer(candidates[0])}</div>
-        `;
+        showAnswer(candidates[0]);
+        disableButtons();
         return;
       }
 
-      result.style.display = "block";
-      result.innerHTML = `
-        候補が ${candidates.length} 個あります
-        <div class="candidates">
-          ${candidates.map(value => `<div class="candidate">${formatAnswer(value)}</div>`).join("")}
-        </div>
-      `;
+      turn++;
+      currentGuess = decideNextGuess();
 
-      const nextGuess = suggestNextGuess(candidates, guesses);
-
-      if (nextGuess) {
-        message.innerHTML = `
-          <div class="hint">
-            次は「${formatAnswer(nextGuess)}」を入力すると絞り込みやすいです。
-          </div>
-        `;
-      }
+      renderCurrent();
+      showCandidates();
     }
 
-    function suggestNextGuess(candidates, guesses) {
-      const used = guesses
-        .filter(guess => guess.hit !== "")
-        .map(guess => guess.value);
-
-      const fixedOrder = ["1111", "1122", "1212"];
-
-      for (const guess of fixedOrder) {
-        if (!used.includes(guess)) {
-          return guess;
-        }
+    function decideNextGuess() {
+      if (turn < fixedGuesses.length) {
+        return fixedGuesses[turn];
       }
 
       let bestGuess = null;
-      let bestScore = Infinity;
+      let bestWorstCount = Infinity;
 
-      for (const guess of ALL_CANDIDATES) {
+      for (const guess of allAnswers) {
         const groups = {};
 
         for (const answer of candidates) {
-          const hit = countHit(answer, guess);
+          const hit = countSuccess(answer, guess);
           groups[hit] = (groups[hit] || 0) + 1;
         }
 
-        const worst = Math.max(...Object.values(groups));
+        const worstCount = Math.max(...Object.values(groups));
 
-        if (worst < bestScore) {
-          bestScore = worst;
+        if (worstCount < bestWorstCount) {
+          bestWorstCount = worstCount;
           bestGuess = guess;
         }
       }
@@ -410,106 +358,123 @@
       return bestGuess;
     }
 
-    function formatAnswer(value) {
-      return value.split("").join(" ");
+    function renderCurrent() {
+      document.getElementById("turnLabel").textContent = `${turn + 1}回目`;
+      document.getElementById("currentGuess").textContent = formatNumber(currentGuess);
+
+      document.getElementById("note").innerHTML = `
+        この数字を入力してください。<br>
+        入力後、表示された成功数を押してください。
+      `;
     }
 
-    function resetForm() {
-      document.getElementById("guess1").value = "1111";
-      document.getElementById("guess2").value = "1122";
-      document.getElementById("guess3").value = "1212";
+    function showCandidates() {
+      const resultCard = document.getElementById("resultCard");
+      const resultTitle = document.getElementById("resultTitle");
+      const resultBody = document.getElementById("resultBody");
 
-      document.getElementById("hit1").value = "";
-      document.getElementById("hit2").value = "";
-      document.getElementById("hit3").value = "";
+      resultCard.style.display = "block";
+      resultTitle.textContent = `現在の候補：${candidates.length}個`;
 
-      document.getElementById("message").innerHTML = "";
-      document.getElementById("result").style.display = "none";
-      document.getElementById("result").innerHTML = "";
+      resultBody.innerHTML = `
+        <div class="candidate-list">
+          ${candidates.map(value => {
+            return `<div class="candidate">${formatNumber(value)}</div>`;
+          }).join("")}
+        </div>
+      `;
     }
 
-    function buildPatternTable() {
-      const tbody = document.getElementById("patternTable");
-      const rows = [];
+    function showAnswer(answer) {
+      const resultCard = document.getElementById("resultCard");
+      const resultTitle = document.getElementById("resultTitle");
+      const resultBody = document.getElementById("resultBody");
 
-      for (let hit1 = 0; hit1 <= 4; hit1++) {
-        let candidates1 = ALL_CANDIDATES.filter(answer => {
-          return countHit(answer, "1111") === hit1;
-        });
+      resultCard.style.display = "block";
+      resultTitle.textContent = "最終的な答え";
 
-        if (candidates1.length === 1) {
-          rows.push({
-            guess1: "1111",
-            hit1,
-            guess2: "",
-            hit2: "",
-            guess3: "",
-            hit3: "",
-            answers: candidates1
-          });
-          continue;
-        }
+      resultBody.innerHTML = `
+        <div class="answer">${formatNumber(answer)}</div>
+        <div class="note">この数字を入力してください。</div>
+      `;
+    }
 
-        for (let hit2 = 0; hit2 <= 4; hit2++) {
-          let candidates2 = candidates1.filter(answer => {
-            return countHit(answer, "1122") === hit2;
-          });
+    function showError() {
+      const resultCard = document.getElementById("resultCard");
+      const resultTitle = document.getElementById("resultTitle");
+      const resultBody = document.getElementById("resultBody");
 
-          if (candidates2.length === 0) {
-            continue;
-          }
+      resultCard.style.display = "block";
+      resultTitle.textContent = "候補なし";
 
-          if (candidates2.length <= 2 && !(hit1 === 2 && hit2 === 2)) {
-            rows.push({
-              guess1: "1111",
-              hit1,
-              guess2: "1122",
-              hit2,
-              guess3: "",
-              hit3: "",
-              answers: candidates2
-            });
-            continue;
-          }
+      resultBody.innerHTML = `
+        <div class="error">
+          入力した成功数のどこかが間違っている可能性があります。<br>
+          リセットして最初からやり直してください。
+        </div>
+      `;
+    }
 
-          for (let hit3 = 0; hit3 <= 4; hit3++) {
-            let candidates3 = candidates2.filter(answer => {
-              return countHit(answer, "1212") === hit3;
-            });
+    function renderHistory() {
+      const historyCard = document.getElementById("historyCard");
+      const history = document.getElementById("history");
 
-            if (candidates3.length === 0) {
-              continue;
-            }
+      historyCard.style.display = "block";
 
-            rows.push({
-              guess1: "1111",
-              hit1,
-              guess2: "1122",
-              hit2,
-              guess3: "1212",
-              hit3,
-              answers: candidates3
-            });
-          }
-        }
-      }
-
-      tbody.innerHTML = rows.map(row => {
+      history.innerHTML = logs.map(log => {
         return `
-          <tr>
-            <td>${formatAnswer(row.guess1)}</td>
-            <td class="blue">${row.hit1}</td>
-            <td>${row.guess2 ? formatAnswer(row.guess2) : "→"}</td>
-            <td class="blue">${row.hit2}</td>
-            <td>${row.guess3 ? formatAnswer(row.guess3) : "→"}</td>
-            <td class="blue">${row.hit3}</td>
-            <td>${row.answers.map(formatAnswer).join("　／　")}</td>
-          </tr>
+          <div class="history-row">
+            <div class="history-turn">${log.turn}回目</div>
+            <div class="history-num">${formatNumber(log.guess)}</div>
+            <div class="history-hit">${log.hit}個</div>
+          </div>
         `;
       }).join("");
     }
 
-    buildPatternTable();
+    function disableButtons() {
+      const buttons = document.querySelectorAll("#hitButtons button");
+
+      buttons.forEach(button => {
+        button.disabled = true;
+      });
+    }
+
+    function enableButtons() {
+      const buttons = document.querySelectorAll("#hitButtons button");
+
+      buttons.forEach(button => {
+        button.disabled = false;
+      });
+    }
+
+    function resetGame() {
+      turn = 0;
+      currentGuess = fixedGuesses[0];
+      candidates = [...allAnswers];
+      logs = [];
+
+      document.getElementById("resultCard").style.display = "none";
+      document.getElementById("resultTitle").textContent = "";
+      document.getElementById("resultBody").innerHTML = "";
+
+      document.getElementById("historyCard").style.display = "none";
+      document.getElementById("history").innerHTML = "";
+
+      document.getElementById("note").innerHTML = `
+        成功数を押してください。<br>
+        有効：0 / 1 / 2 / 3 / 4
+      `;
+
+      enableButtons();
+      renderCurrent();
+    }
+
+    function formatNumber(value) {
+      return value.split("").join(" ");
+    }
+
+    renderCurrent();
   </script>
 </body>
 </html>
