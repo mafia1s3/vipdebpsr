@@ -445,13 +445,10 @@
       <div class="question">
         <div class="question-label" id="questionLabel">このすうじを入れてね</div>
         <div class="number" id="currentGuess">1111</div>
-        <div class="guide" id="guideText">
-          せいかいすうをくりっく⇒
-        </div>
       </div>
 
       <div class="buttons-wrap">
-        <div class="click-caption">せいかいすうをくりっく⇒</div>
+        <div class="click-caption">せいかいすうをくりっく</div>
 
         <div class="buttons" id="hitButtons">
           <button class="button-0" onclick="inputHit(0)">0</button>
@@ -705,7 +702,7 @@
 
       resultBody.innerHTML = `
         <div class="small">
-          つぎに出たすうじを入れて、せいかいすうをくりっく⇒
+          つぎに出たすうじを入れて、せいかいすうをくりっく
         </div>
         <div class="candidate-list">
           ${state.candidates.map(answer => {
