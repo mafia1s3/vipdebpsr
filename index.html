@@ -2,10 +2,514 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>公開テスト</title>
+  <title>蝕花の残影 数字入力ギミック解読</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 24px;
+      color: #222;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #fff;
+      border: 3px solid #222;
+      padding: 24px;
+      box-shadow: 4px 4px 0 #ccc;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      margin: 0;
+      letter-spacing: 0.08em;
+    }
+
+    .sub {
+      text-align: center;
+      font-size: 14px;
+      margin: 6px 0 24px;
+    }
+
+    .panel {
+      border: 2px solid #222;
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      background: #f1c232;
+      font-weight: bold;
+      padding: 10px;
+      border-bottom: 2px solid #222;
+      font-size: 20px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      background: #fff2cc;
+      padding: 12px;
+      font-weight: bold;
+      border-right: 1px solid #aaa;
+    }
+
+    .content {
+      padding: 12px;
+    }
+
+    input, select, button {
+      font-size: 18px;
+      padding: 8px;
+      margin: 4px;
+    }
+
+    input[type="text"] {
+      width: 110px;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+    }
+
+    select {
+      width: 80px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: bold;
+      background: #3c78d8;
+      color: white;
+      border: 2px solid #222;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background: #1155cc;
+    }
+
+    .result {
+      border: 3px solid #222;
+      background: #e06666;
+      color: #000;
+      padding: 16px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .answer {
+      font-size: 42px;
+      letter-spacing: 0.4em;
+      margin-top: 12px;
+    }
+
+    .candidates {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .candidate {
+      border: 2px solid #222;
+      background: #fff;
+      padding: 8px 14px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+    }
+
+    .hint {
+      background: #d9ead3;
+      border: 2px solid #38761d;
+      padding: 12px;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .warn {
+      background: #fff2cc;
+      border: 2px solid #bf9000;
+      padding: 12px;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #222;
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    th {
+      background: #f1c232;
+    }
+
+    .blue {
+      background: #cfe2f3;
+    }
+
+    .red {
+      background: #e06666;
+    }
+
+    .small {
+      font-size: 13px;
+      font-weight: normal;
+    }
+  </style>
 </head>
 <body>
-  <h1>公開テスト</h1>
-  <p>GitHub Pagesで公開できました。</p>
+  <div class="container">
+    <h1>蝕花の残影　数字入力ギミック解読</h1>
+    <div class="sub">数字は 1 / 2 の4桁。入力した数字に対して「正解数」を入れると候補を絞り込みます。</div>
+
+    <div class="panel">
+      <div class="panel-title">手順</div>
+
+      <div class="row">
+        <div class="label">1回目</div>
+        <div class="content">
+          <input id="guess1" type="text" value="1111" maxlength="4">
+          正解数
+          <select id="hit1">
+            <option value="">未入力</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="label">2回目</div>
+        <div class="content">
+          <input id="guess2" type="text" value="1122" maxlength="4">
+          正解数
+          <select id="hit2">
+            <option value="">未入力</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="label">3回目</div>
+        <div class="content">
+          <input id="guess3" type="text" value="1212" maxlength="4">
+          正解数
+          <select id="hit3">
+            <option value="">未入力</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="solve()">解読する</button>
+    <button onclick="resetForm()">リセット</button>
+
+    <div id="message"></div>
+    <div id="result" class="result" style="display:none;"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>1回目</th>
+          <th class="blue">正解数</th>
+          <th>2回目</th>
+          <th class="blue">正解数</th>
+          <th>3回目</th>
+          <th class="blue">正解数</th>
+          <th class="red">最終的な答え</th>
+        </tr>
+      </thead>
+      <tbody id="patternTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const ALL_CANDIDATES = generateCandidates();
+
+    function generateCandidates() {
+      const result = [];
+
+      for (let i = 0; i < 16; i++) {
+        let value = "";
+
+        for (let bit = 3; bit >= 0; bit--) {
+          value += ((i >> bit) & 1) === 0 ? "1" : "2";
+        }
+
+        result.push(value);
+      }
+
+      return result;
+    }
+
+    function countHit(answer, guess) {
+      let count = 0;
+
+      for (let i = 0; i < 4; i++) {
+        if (answer[i] === guess[i]) {
+          count++;
+        }
+      }
+
+      return count;
+    }
+
+    function isValidNumber(value) {
+      return /^[12]{4}$/.test(value);
+    }
+
+    function solve() {
+      const guesses = [
+        {
+          value: document.getElementById("guess1").value.trim(),
+          hit: document.getElementById("hit1").value
+        },
+        {
+          value: document.getElementById("guess2").value.trim(),
+          hit: document.getElementById("hit2").value
+        },
+        {
+          value: document.getElementById("guess3").value.trim(),
+          hit: document.getElementById("hit3").value
+        }
+      ];
+
+      const message = document.getElementById("message");
+      const result = document.getElementById("result");
+
+      message.innerHTML = "";
+      result.style.display = "none";
+      result.innerHTML = "";
+
+      let candidates = [...ALL_CANDIDATES];
+
+      for (const guess of guesses) {
+        if (guess.hit === "") {
+          continue;
+        }
+
+        if (!isValidNumber(guess.value)) {
+          message.innerHTML = `<div class="warn">入力数字は 1 と 2 だけの4桁にしてください。</div>`;
+          return;
+        }
+
+        const hitNumber = Number(guess.hit);
+
+        candidates = candidates.filter(answer => {
+          return countHit(answer, guess.value) === hitNumber;
+        });
+      }
+
+      if (candidates.length === 0) {
+        result.style.display = "block";
+        result.innerHTML = `
+          候補なし
+          <div class="small">入力した正解数のどこかが間違っている可能性があります。</div>
+        `;
+        return;
+      }
+
+      if (candidates.length === 1) {
+        result.style.display = "block";
+        result.innerHTML = `
+          最終的な答え
+          <div class="answer">${formatAnswer(candidates[0])}</div>
+        `;
+        return;
+      }
+
+      result.style.display = "block";
+      result.innerHTML = `
+        候補が ${candidates.length} 個あります
+        <div class="candidates">
+          ${candidates.map(value => `<div class="candidate">${formatAnswer(value)}</div>`).join("")}
+        </div>
+      `;
+
+      const nextGuess = suggestNextGuess(candidates, guesses);
+
+      if (nextGuess) {
+        message.innerHTML = `
+          <div class="hint">
+            次は「${formatAnswer(nextGuess)}」を入力すると絞り込みやすいです。
+          </div>
+        `;
+      }
+    }
+
+    function suggestNextGuess(candidates, guesses) {
+      const used = guesses
+        .filter(guess => guess.hit !== "")
+        .map(guess => guess.value);
+
+      const fixedOrder = ["1111", "1122", "1212"];
+
+      for (const guess of fixedOrder) {
+        if (!used.includes(guess)) {
+          return guess;
+        }
+      }
+
+      let bestGuess = null;
+      let bestScore = Infinity;
+
+      for (const guess of ALL_CANDIDATES) {
+        const groups = {};
+
+        for (const answer of candidates) {
+          const hit = countHit(answer, guess);
+          groups[hit] = (groups[hit] || 0) + 1;
+        }
+
+        const worst = Math.max(...Object.values(groups));
+
+        if (worst < bestScore) {
+          bestScore = worst;
+          bestGuess = guess;
+        }
+      }
+
+      return bestGuess;
+    }
+
+    function formatAnswer(value) {
+      return value.split("").join(" ");
+    }
+
+    function resetForm() {
+      document.getElementById("guess1").value = "1111";
+      document.getElementById("guess2").value = "1122";
+      document.getElementById("guess3").value = "1212";
+
+      document.getElementById("hit1").value = "";
+      document.getElementById("hit2").value = "";
+      document.getElementById("hit3").value = "";
+
+      document.getElementById("message").innerHTML = "";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("result").innerHTML = "";
+    }
+
+    function buildPatternTable() {
+      const tbody = document.getElementById("patternTable");
+      const rows = [];
+
+      for (let hit1 = 0; hit1 <= 4; hit1++) {
+        let candidates1 = ALL_CANDIDATES.filter(answer => {
+          return countHit(answer, "1111") === hit1;
+        });
+
+        if (candidates1.length === 1) {
+          rows.push({
+            guess1: "1111",
+            hit1,
+            guess2: "",
+            hit2: "",
+            guess3: "",
+            hit3: "",
+            answers: candidates1
+          });
+          continue;
+        }
+
+        for (let hit2 = 0; hit2 <= 4; hit2++) {
+          let candidates2 = candidates1.filter(answer => {
+            return countHit(answer, "1122") === hit2;
+          });
+
+          if (candidates2.length === 0) {
+            continue;
+          }
+
+          if (candidates2.length <= 2 && !(hit1 === 2 && hit2 === 2)) {
+            rows.push({
+              guess1: "1111",
+              hit1,
+              guess2: "1122",
+              hit2,
+              guess3: "",
+              hit3: "",
+              answers: candidates2
+            });
+            continue;
+          }
+
+          for (let hit3 = 0; hit3 <= 4; hit3++) {
+            let candidates3 = candidates2.filter(answer => {
+              return countHit(answer, "1212") === hit3;
+            });
+
+            if (candidates3.length === 0) {
+              continue;
+            }
+
+            rows.push({
+              guess1: "1111",
+              hit1,
+              guess2: "1122",
+              hit2,
+              guess3: "1212",
+              hit3,
+              answers: candidates3
+            });
+          }
+        }
+      }
+
+      tbody.innerHTML = rows.map(row => {
+        return `
+          <tr>
+            <td>${formatAnswer(row.guess1)}</td>
+            <td class="blue">${row.hit1}</td>
+            <td>${row.guess2 ? formatAnswer(row.guess2) : "→"}</td>
+            <td class="blue">${row.hit2}</td>
+            <td>${row.guess3 ? formatAnswer(row.guess3) : "→"}</td>
+            <td class="blue">${row.hit3}</td>
+            <td>${row.answers.map(formatAnswer).join("　／　")}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    buildPatternTable();
+  </script>
 </body>
 </html>
