@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>蝕花の残影 数字入力ギミック</title>
+  <title>ざんえいのぱすわーど</title>
 
   <style>
     * {
@@ -12,122 +12,307 @@
 
     body {
       margin: 0;
-      padding: 16px;
-      background: #0b0f17;
-      color: #f5f7ff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 18px;
+      min-height: 100vh;
+      font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+      color: #5b456d;
+      background:
+        radial-gradient(circle at 15% 12%, #fff7b8 0 7%, transparent 8%),
+        radial-gradient(circle at 85% 10%, #ffd6ef 0 8%, transparent 9%),
+        radial-gradient(circle at 18% 86%, #d7f7ff 0 9%, transparent 10%),
+        radial-gradient(circle at 86% 82%, #e5ddff 0 8%, transparent 9%),
+        linear-gradient(135deg, #fff0f8, #eff8ff 45%, #fff7d9);
     }
 
     .app {
-      max-width: 680px;
+      max-width: 760px;
       margin: 0 auto;
     }
 
-    .card {
-      background: #151a24;
-      border: 1px solid #2b3548;
-      border-radius: 16px;
-      padding: 22px 14px;
-      margin-bottom: 12px;
+    .title-card,
+    .main-card,
+    .result-card,
+    .history-card,
+    .help-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid #ffaad4;
+      border-radius: 28px;
+      box-shadow: 0 10px 0 #f4c5df, 0 18px 28px rgba(166, 95, 145, 0.18);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .title-card {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .title-card::before,
+    .title-card::after {
+      content: "♡";
+      position: absolute;
+      font-size: 72px;
+      color: rgba(255, 170, 212, 0.25);
+      top: 8px;
+    }
+
+    .title-card::before {
+      left: 18px;
+      transform: rotate(-18deg);
+    }
+
+    .title-card::after {
+      right: 18px;
+      transform: rotate(18deg);
     }
 
     h1 {
-      margin: 0 0 8px;
-      text-align: center;
-      font-size: 24px;
-      line-height: 1.4;
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.45;
+      color: #ff6fb3;
+      text-shadow: 2px 2px 0 #fff3a6;
+      letter-spacing: 0.06em;
     }
 
-    .desc {
-      text-align: center;
-      color: #b9c3d8;
-      font-size: 14px;
+    .subtitle {
+      margin-top: 10px;
+      color: #7d6f92;
+      font-weight: 900;
       line-height: 1.7;
     }
 
-    .turn-label {
+    .status {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 900;
+      border: 2px solid #fff;
+      box-shadow: 0 3px 0 rgba(123, 88, 138, 0.18);
+    }
+
+    .badge-turn {
+      background: #c9f7ff;
+      color: #39788a;
+    }
+
+    .badge-candidate {
+      background: #fff2a8;
+      color: #8a6a19;
+    }
+
+    .badge-fixed {
+      background: #ffd2ea;
+      color: #b44982;
+    }
+
+    .question {
       text-align: center;
-      color: #37ffd0;
-      font-weight: bold;
+      padding: 18px;
+      background: linear-gradient(180deg, #fffaff, #fff0f9);
+      border: 3px dashed #ffaad4;
+      border-radius: 24px;
+      margin-bottom: 18px;
+    }
+
+    .question-label {
+      font-size: 16px;
+      font-weight: 900;
+      color: #9d75c7;
       margin-bottom: 8px;
     }
 
     .number {
+      display: inline-block;
+      font-size: 58px;
+      line-height: 1;
+      font-weight: 1000;
+      color: #7c8cff;
+      letter-spacing: 0.16em;
+      text-shadow:
+        3px 3px 0 #ffffff,
+        5px 5px 0 #ffe0f2;
+      margin-left: 0.16em;
+    }
+
+    .guide {
+      display: inline-block;
       text-align: center;
-      font-size: 52px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      color: #5d94ff;
-      margin-bottom: 16px;
+      font-size: 20px;
+      line-height: 1.8;
+      font-weight: 1000;
+      color: #ff6fb3;
+      background: #fff9d9;
+      border: 2px solid #ffcf65;
+      border-radius: 999px;
+      padding: 7px 16px;
+      margin-top: 14px;
+      box-shadow: 0 4px 0 #ffe3a6;
+    }
+
+    .buttons-wrap {
+      text-align: center;
+    }
+
+    .click-caption {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 14px;
+      background: #e9dcff;
+      color: #7b5bcc;
+      border: 2px solid #cbb7ff;
+      border-radius: 999px;
+      font-weight: 1000;
     }
 
     .buttons {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
 
     button {
+      appearance: none;
       border: 0;
-      border-radius: 12px;
-      padding: 18px 6px;
-      font-size: 22px;
-      font-weight: 800;
-      color: white;
-      background: #375aa0;
+      border-radius: 18px;
+      padding: 18px 8px;
+      font-size: 24px;
+      font-weight: 1000;
+      color: #ffffff;
+      background: linear-gradient(180deg, #ff9bd2, #ff6fb3);
+      box-shadow: 0 6px 0 #d94f92;
       cursor: pointer;
+      transition: transform 0.05s, box-shadow 0.05s, filter 0.15s;
     }
 
     button:hover {
-      background: #4870c4;
+      filter: brightness(1.05);
+    }
+
+    button:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 #d94f92;
     }
 
     button:disabled {
-      opacity: 0.35;
+      opacity: 0.45;
       cursor: not-allowed;
+      transform: none;
     }
 
-    .note {
+    .button-0 {
+      background: linear-gradient(180deg, #b9d7ff, #7daeff);
+      box-shadow: 0 6px 0 #5d87d9;
+    }
+
+    .button-1 {
+      background: linear-gradient(180deg, #ffc3e4, #ff7fc1);
+      box-shadow: 0 6px 0 #d85c9d;
+    }
+
+    .button-2 {
+      background: linear-gradient(180deg, #d9c9ff, #a894ff);
+      box-shadow: 0 6px 0 #7e6ed9;
+    }
+
+    .button-3 {
+      background: linear-gradient(180deg, #bffff3, #67dccd);
+      box-shadow: 0 6px 0 #45b4a6;
+    }
+
+    .button-4 {
+      background: linear-gradient(180deg, #ffeaa7, #ffc857);
+      box-shadow: 0 6px 0 #d9a83a;
+    }
+
+    .control-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .control {
+      font-size: 18px;
+      padding: 15px 8px;
+    }
+
+    .back {
+      background: linear-gradient(180deg, #c7d1e8, #9ba9c9);
+      box-shadow: 0 6px 0 #7886a4;
+    }
+
+    .reset {
+      background: linear-gradient(180deg, #ffd7a8, #ffad6b);
+      box-shadow: 0 6px 0 #d88445;
+    }
+
+    .result-card {
+      display: none;
       text-align: center;
-      color: #c9d3e8;
-      font-size: 14px;
-      margin-top: 14px;
-      line-height: 1.7;
+      border-color: #ffd36e;
+      box-shadow: 0 10px 0 #ffe3a6, 0 18px 28px rgba(166, 123, 50, 0.16);
     }
 
     .result-title {
-      text-align: center;
-      font-size: 16px;
-      color: #37ffd0;
-      font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 22px;
+      color: #ff7aaa;
+      font-weight: 1000;
+      margin-bottom: 12px;
     }
 
     .answer {
-      text-align: center;
-      font-size: 54px;
-      font-weight: 900;
+      display: inline-block;
+      font-size: 64px;
+      font-weight: 1000;
+      color: #ff9f1c;
       letter-spacing: 0.18em;
-      color: #ffdf5d;
-      margin: 12px 0;
+      margin-left: 0.18em;
+      text-shadow:
+        3px 3px 0 #fff,
+        6px 6px 0 #ffe5a9;
     }
 
     .candidate-list {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       margin-top: 12px;
     }
 
     .candidate {
-      background: #20283a;
-      border: 1px solid #3a4660;
-      border-radius: 10px;
-      padding: 8px 12px;
+      background: #fff9d9;
+      border: 3px solid #ffcf65;
+      border-radius: 18px;
+      padding: 9px 14px;
+      font-size: 24px;
+      font-weight: 1000;
+      color: #7b5a00;
+      letter-spacing: 0.16em;
+      box-shadow: 0 4px 0 #ffe3a6;
+    }
+
+    .history-card {
+      display: none;
+      border-color: #bca8ff;
+      box-shadow: 0 10px 0 #dcd4ff, 0 18px 28px rgba(95, 70, 166, 0.15);
+    }
+
+    .card-title {
+      text-align: center;
       font-size: 20px;
-      font-weight: bold;
-      letter-spacing: 0.14em;
+      color: #8d76d6;
+      font-weight: 1000;
+      margin-bottom: 12px;
     }
 
     .history {
@@ -137,71 +322,104 @@
 
     .history-row {
       display: grid;
-      grid-template-columns: 80px 1fr 80px;
-      gap: 8px;
+      grid-template-columns: 72px 1fr 76px;
       align-items: center;
-      background: #111620;
-      border: 1px solid #2b3548;
-      border-radius: 10px;
+      gap: 8px;
       padding: 10px;
-      font-weight: bold;
+      border: 2px solid #d8ccff;
+      border-radius: 16px;
+      background: #fbf9ff;
+      font-weight: 1000;
     }
 
     .history-turn {
-      color: #37ffd0;
+      color: #8d76d6;
     }
 
     .history-num {
       text-align: center;
-      color: #8fb2ff;
-      letter-spacing: 0.14em;
-      font-size: 20px;
+      color: #6f83ff;
+      font-size: 22px;
+      letter-spacing: 0.15em;
     }
 
     .history-hit {
       text-align: right;
-      color: #ffdf5d;
+      color: #ff8bbb;
     }
 
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
+    .help-card {
+      border-color: #9ee8df;
+      box-shadow: 0 10px 0 #c5f4ee, 0 18px 28px rgba(70, 166, 150, 0.15);
+      line-height: 1.9;
+      font-weight: 800;
     }
 
-    .reset {
-      background: #40495f;
-    }
-
-    .reset:hover {
-      background: #56627c;
+    .help-card ul {
+      margin: 8px 0 0;
+      padding-left: 1.4em;
     }
 
     .error {
-      color: #ff7777;
-      text-align: center;
-      font-weight: bold;
-      line-height: 1.7;
+      color: #e95478;
+      font-weight: 1000;
+      line-height: 1.8;
     }
 
-    .footer {
-      text-align: center;
-      color: #9eabc2;
-      font-size: 13px;
+    .small {
+      font-size: 14px;
+      color: #7d6f92;
+      line-height: 1.8;
+      font-weight: 800;
+      margin-top: 10px;
     }
 
-    @media (max-width: 520px) {
+    .sparkle {
+      color: #ffb800;
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 10px;
+      }
+
+      .title-card,
+      .main-card,
+      .result-card,
+      .history-card,
+      .help-card {
+        padding: 16px;
+        border-radius: 22px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
       .number {
-        font-size: 44px;
+        font-size: 46px;
       }
 
       .answer {
-        font-size: 44px;
+        font-size: 48px;
+      }
+
+      .buttons {
+        gap: 7px;
       }
 
       button {
         font-size: 20px;
         padding: 16px 4px;
+        border-radius: 15px;
+      }
+
+      .control-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .history-row {
+        grid-template-columns: 64px 1fr 64px;
       }
     }
   </style>
@@ -209,67 +427,80 @@
 
 <body>
   <div class="app">
-    <div class="card">
-      <h1>蝕花の残影<br>数字入力ギミック</h1>
-      <div class="desc">
-        1回目は必ず <b>1111</b>。<br>
-        表示された数字を入力して、出た成功数を押してください。
+    <section class="title-card">
+      <h1>ざんえいのぱすわーど</h1>
+      <div class="subtitle">
+        でてきたすうじを入れてね。<br>
+        せいかいすうをくりっく⇒
       </div>
-    </div>
+    </section>
 
-    <div class="card" id="mainCard">
-      <div class="turn-label" id="turnLabel">1回目</div>
-      <div class="number" id="currentGuess">1111</div>
-
-      <div class="buttons" id="hitButtons">
-        <button onclick="inputHit(0)">0</button>
-        <button onclick="inputHit(1)">1</button>
-        <button onclick="inputHit(2)">2</button>
-        <button onclick="inputHit(3)">3</button>
-        <button onclick="inputHit(4)">4</button>
+    <section class="main-card">
+      <div class="status">
+        <div class="badge badge-turn" id="turnBadge">1手目</div>
+        <div class="badge badge-candidate" id="candidateBadge">こうほが 16こあるよ</div>
+        <div class="badge badge-fixed">1手目は1111だよ</div>
       </div>
 
-      <div class="note" id="note">
-        成功数を押してください。<br>
-        有効：0 / 1 / 2 / 3 / 4
+      <div class="question">
+        <div class="question-label" id="questionLabel">このすうじを入れてね</div>
+        <div class="number" id="currentGuess">1111</div>
+        <div class="guide" id="guideText">
+          せいかいすうをくりっく⇒
+        </div>
       </div>
-    </div>
 
-    <div class="card" id="resultCard" style="display:none;">
+      <div class="buttons-wrap">
+        <div class="click-caption">せいかいすうをくりっく⇒</div>
+
+        <div class="buttons" id="hitButtons">
+          <button class="button-0" onclick="inputHit(0)">0</button>
+          <button class="button-1" onclick="inputHit(1)">1</button>
+          <button class="button-2" onclick="inputHit(2)">2</button>
+          <button class="button-3" onclick="inputHit(3)">3</button>
+          <button class="button-4" onclick="inputHit(4)">4</button>
+        </div>
+      </div>
+
+      <div class="control-buttons">
+        <button class="control back" onclick="backStep()">もどる</button>
+        <button class="control reset" onclick="resetGame()">リセット</button>
+      </div>
+    </section>
+
+    <section class="result-card" id="resultCard">
       <div class="result-title" id="resultTitle"></div>
       <div id="resultBody"></div>
-    </div>
+    </section>
 
-    <div class="card" id="historyCard" style="display:none;">
-      <div class="result-title">入力履歴</div>
+    <section class="history-card" id="historyCard">
+      <div class="card-title">やったこと</div>
       <div class="history" id="history"></div>
-    </div>
+    </section>
 
-    <div class="card">
-      <div class="controls">
-        <button class="reset" onclick="resetGame()">リセット</button>
-      </div>
-    </div>
-
-    <div class="card footer">
-      1と2だけで構成される4桁の全16通りから自動で候補を絞り込みます。
-    </div>
+    <section class="help-card">
+      <div class="card-title">つかいかた</div>
+      <ul>
+        <li>さいしょは <b>1111</b> を入れるよ。</li>
+        <li>でたせいかいすうを 0〜4 からくりっく。</li>
+        <li>つぎに入れるすうじが出るよ。</li>
+        <li>こたえが1つになったら、そのすうじを入れておわり。</li>
+      </ul>
+    </section>
   </div>
 
   <script>
     const allAnswers = createAllAnswers();
 
-    const fixedGuesses = [
-      "1111",
-      "1122",
-      "1212",
-      "1221"
-    ];
+    let state = {
+      guess: "1111",
+      turn: 1,
+      candidates: [...allAnswers],
+      logs: [],
+      finished: false
+    };
 
-    let turn = 0;
-    let currentGuess = fixedGuesses[0];
-    let candidates = [...allAnswers];
-    let logs = [];
+    const snapshots = [];
 
     function createAllAnswers() {
       const list = [];
@@ -287,7 +518,7 @@
       return list;
     }
 
-    function countSuccess(answer, guess) {
+    function countHit(answer, guess) {
       let count = 0;
 
       for (let i = 0; i < 4; i++) {
@@ -300,72 +531,168 @@
     }
 
     function inputHit(hit) {
-      logs.push({
-        turn: turn + 1,
-        guess: currentGuess,
+      if (state.finished) {
+        return;
+      }
+
+      snapshots.push(copyState(state));
+
+      state.logs.push({
+        turn: state.turn,
+        guess: state.guess,
         hit: hit
       });
 
-      candidates = candidates.filter(answer => {
-        return countSuccess(answer, currentGuess) === hit;
+      state.candidates = state.candidates.filter(answer => {
+        return countHit(answer, state.guess) === hit;
       });
 
-      renderHistory();
-
-      if (candidates.length === 0) {
+      if (state.candidates.length === 0) {
+        state.finished = true;
+        render();
         showError();
-        disableButtons();
         return;
       }
 
-      if (candidates.length === 1) {
-        showAnswer(candidates[0]);
-        disableButtons();
+      if (state.candidates.length === 1) {
+        state.finished = true;
+        render();
+        showAnswer(state.candidates[0]);
         return;
       }
 
-      turn++;
-      currentGuess = decideNextGuess();
+      state.turn++;
+      state.guess = decideNextGuess(state.candidates, state.logs);
 
-      renderCurrent();
+      render();
       showCandidates();
     }
 
-    function decideNextGuess() {
-      if (turn < fixedGuesses.length) {
-        return fixedGuesses[turn];
+    function decideNextGuess(candidates, logs) {
+      const path = logs.map(log => `${log.guess}:${log.hit}`).join("|");
+
+      const routeGuess = getRouteGuess(path, candidates);
+
+      if (routeGuess) {
+        return routeGuess;
       }
 
+      return getBestGuess(candidates, logs);
+    }
+
+    function getRouteGuess(path, candidates) {
+      if (path === "1111:1") {
+        return "1122";
+      }
+
+      if (path === "1111:3") {
+        return "1122";
+      }
+
+      if (path === "1111:2") {
+        return "1112";
+      }
+
+      if (
+        path === "1111:2|1112:3" ||
+        path === "1111:2|1112:1"
+      ) {
+        return "1121";
+      }
+
+      if (candidates.length <= 2) {
+        return getBestGuess(candidates, []);
+      }
+
+      return null;
+    }
+
+    function getBestGuess(candidates, logs) {
+      const used = logs.map(log => log.guess);
+
       let bestGuess = null;
-      let bestWorstCount = Infinity;
+      let bestWorst = Infinity;
+      let bestGroupCount = -1;
+      let bestIsCandidate = false;
 
       for (const guess of allAnswers) {
+        if (used.includes(guess) && allAnswers.length > used.length) {
+          continue;
+        }
+
         const groups = {};
 
         for (const answer of candidates) {
-          const hit = countSuccess(answer, guess);
-          groups[hit] = (groups[hit] || 0) + 1;
+          const hit = countHit(answer, guess);
+
+          if (!groups[hit]) {
+            groups[hit] = [];
+          }
+
+          groups[hit].push(answer);
         }
 
-        const worstCount = Math.max(...Object.values(groups));
+        const groupSizes = Object.values(groups).map(group => group.length);
+        const worst = Math.max(...groupSizes);
+        const groupCount = groupSizes.length;
+        const isCandidate = candidates.includes(guess);
 
-        if (worstCount < bestWorstCount) {
-          bestWorstCount = worstCount;
+        if (
+          worst < bestWorst ||
+          (worst === bestWorst && groupCount > bestGroupCount) ||
+          (worst === bestWorst && groupCount === bestGroupCount && isCandidate && !bestIsCandidate)
+        ) {
           bestGuess = guess;
+          bestWorst = worst;
+          bestGroupCount = groupCount;
+          bestIsCandidate = isCandidate;
         }
       }
 
-      return bestGuess;
+      return bestGuess || candidates[0];
     }
 
-    function renderCurrent() {
-      document.getElementById("turnLabel").textContent = `${turn + 1}回目`;
-      document.getElementById("currentGuess").textContent = formatNumber(currentGuess);
+    function render() {
+      document.getElementById("turnBadge").textContent = `${state.turn}手目`;
+      document.getElementById("candidateBadge").textContent = `こうほが ${state.candidates.length}こあるよ`;
+      document.getElementById("currentGuess").textContent = formatNumber(state.guess);
 
-      document.getElementById("note").innerHTML = `
-        この数字を入力してください。<br>
-        入力後、表示された成功数を押してください。
-      `;
+      const questionLabel = document.getElementById("questionLabel");
+      const guideText = document.getElementById("guideText");
+
+      if (state.finished) {
+        questionLabel.textContent = "けっか";
+        guideText.textContent = "下にこたえが出たよ";
+      } else {
+        questionLabel.textContent = "このすうじを入れてね";
+        guideText.textContent = "せいかいすうをくりっく⇒";
+      }
+
+      renderHistory();
+      setButtonsDisabled(state.finished);
+    }
+
+    function renderHistory() {
+      const historyCard = document.getElementById("historyCard");
+      const history = document.getElementById("history");
+
+      if (state.logs.length === 0) {
+        historyCard.style.display = "none";
+        history.innerHTML = "";
+        return;
+      }
+
+      historyCard.style.display = "block";
+
+      history.innerHTML = state.logs.map(log => {
+        return `
+          <div class="history-row">
+            <div class="history-turn">${log.turn}手目</div>
+            <div class="history-num">${formatNumber(log.guess)}</div>
+            <div class="history-hit">${log.hit}こ</div>
+          </div>
+        `;
+      }).join("");
     }
 
     function showCandidates() {
@@ -374,12 +701,15 @@
       const resultBody = document.getElementById("resultBody");
 
       resultCard.style.display = "block";
-      resultTitle.textContent = `現在の候補：${candidates.length}個`;
+      resultTitle.textContent = `こうほが ${state.candidates.length}こあるよ`;
 
       resultBody.innerHTML = `
+        <div class="small">
+          つぎに出たすうじを入れて、せいかいすうをくりっく⇒
+        </div>
         <div class="candidate-list">
-          ${candidates.map(value => {
-            return `<div class="candidate">${formatNumber(value)}</div>`;
+          ${state.candidates.map(answer => {
+            return `<div class="candidate">${formatNumber(answer)}</div>`;
           }).join("")}
         </div>
       `;
@@ -391,11 +721,13 @@
       const resultBody = document.getElementById("resultBody");
 
       resultCard.style.display = "block";
-      resultTitle.textContent = "最終的な答え";
+      resultTitle.innerHTML = `<span class="sparkle">✦</span> こたえはこれ <span class="sparkle">✦</span>`;
 
       resultBody.innerHTML = `
         <div class="answer">${formatNumber(answer)}</div>
-        <div class="note">この数字を入力してください。</div>
+        <div class="small">
+          このすうじを入れておわり。
+        </div>
       `;
     }
 
@@ -405,76 +737,82 @@
       const resultBody = document.getElementById("resultBody");
 
       resultCard.style.display = "block";
-      resultTitle.textContent = "候補なし";
+      resultTitle.textContent = "こうほがないよ";
 
       resultBody.innerHTML = `
         <div class="error">
-          入力した成功数のどこかが間違っている可能性があります。<br>
-          リセットして最初からやり直してください。
+          どこかのせいかいすうがまちがってるかも。<br>
+          もどるか、リセットしてやりなおしてね。
         </div>
       `;
     }
 
-    function renderHistory() {
-      const historyCard = document.getElementById("historyCard");
-      const history = document.getElementById("history");
+    function backStep() {
+      if (snapshots.length === 0) {
+        return;
+      }
 
-      historyCard.style.display = "block";
-
-      history.innerHTML = logs.map(log => {
-        return `
-          <div class="history-row">
-            <div class="history-turn">${log.turn}回目</div>
-            <div class="history-num">${formatNumber(log.guess)}</div>
-            <div class="history-hit">${log.hit}個</div>
-          </div>
-        `;
-      }).join("");
+      state = snapshots.pop();
+      render();
+      showCandidatesOrHide();
     }
 
-    function disableButtons() {
-      const buttons = document.querySelectorAll("#hitButtons button");
+    function showCandidatesOrHide() {
+      const resultCard = document.getElementById("resultCard");
 
-      buttons.forEach(button => {
-        button.disabled = true;
-      });
-    }
+      if (state.logs.length === 0) {
+        resultCard.style.display = "none";
+        return;
+      }
 
-    function enableButtons() {
-      const buttons = document.querySelectorAll("#hitButtons button");
-
-      buttons.forEach(button => {
-        button.disabled = false;
-      });
+      if (state.candidates.length === 1) {
+        showAnswer(state.candidates[0]);
+      } else if (state.candidates.length === 0) {
+        showError();
+      } else {
+        showCandidates();
+      }
     }
 
     function resetGame() {
-      turn = 0;
-      currentGuess = fixedGuesses[0];
-      candidates = [...allAnswers];
-      logs = [];
+      state = {
+        guess: "1111",
+        turn: 1,
+        candidates: [...allAnswers],
+        logs: [],
+        finished: false
+      };
+
+      snapshots.length = 0;
 
       document.getElementById("resultCard").style.display = "none";
       document.getElementById("resultTitle").textContent = "";
       document.getElementById("resultBody").innerHTML = "";
 
-      document.getElementById("historyCard").style.display = "none";
-      document.getElementById("history").innerHTML = "";
+      render();
+    }
 
-      document.getElementById("note").innerHTML = `
-        成功数を押してください。<br>
-        有効：0 / 1 / 2 / 3 / 4
-      `;
+    function setButtonsDisabled(disabled) {
+      document.querySelectorAll("#hitButtons button").forEach(button => {
+        button.disabled = disabled;
+      });
+    }
 
-      enableButtons();
-      renderCurrent();
+    function copyState(source) {
+      return {
+        guess: source.guess,
+        turn: source.turn,
+        candidates: [...source.candidates],
+        logs: source.logs.map(log => ({ ...log })),
+        finished: source.finished
+      };
     }
 
     function formatNumber(value) {
       return value.split("").join(" ");
     }
 
-    renderCurrent();
+    render();
   </script>
 </body>
 </html>
