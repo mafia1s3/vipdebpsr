@@ -17,11 +17,11 @@
       font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui, sans-serif;
       color: #5b456d;
       background:
-        radial-gradient(circle at 15% 12%, #fff7b8 0 7%, transparent 8%),
-        radial-gradient(circle at 85% 10%, #ffd6ef 0 8%, transparent 9%),
-        radial-gradient(circle at 18% 86%, #d7f7ff 0 9%, transparent 10%),
-        radial-gradient(circle at 86% 82%, #e5ddff 0 8%, transparent 9%),
-        linear-gradient(135deg, #fff0f8, #eff8ff 45%, #fff7d9);
+        radial-gradient(circle at 12% 10%, #fff6a8 0 7%, transparent 8%),
+        radial-gradient(circle at 88% 12%, #ffd6ef 0 8%, transparent 9%),
+        radial-gradient(circle at 12% 86%, #cffff8 0 9%, transparent 10%),
+        radial-gradient(circle at 88% 84%, #e8dcff 0 8%, transparent 9%),
+        linear-gradient(135deg, #fff0fa, #f1fbff 48%, #fff8d8);
     }
 
     .app {
@@ -29,15 +29,13 @@
       margin: 0 auto;
     }
 
-    .title-card,
-    .main-card,
-    .result-card,
-    .history-card,
-    .help-card {
-      background: rgba(255, 255, 255, 0.9);
+    .card {
+      background: rgba(255, 255, 255, 0.92);
       border: 3px solid #ffaad4;
       border-radius: 28px;
-      box-shadow: 0 10px 0 #f4c5df, 0 18px 28px rgba(166, 95, 145, 0.18);
+      box-shadow:
+        0 10px 0 #f4c5df,
+        0 18px 28px rgba(166, 95, 145, 0.18);
       padding: 22px;
       margin-bottom: 18px;
     }
@@ -52,25 +50,24 @@
     .title-card::after {
       content: "♡";
       position: absolute;
-      font-size: 72px;
+      font-size: 76px;
       color: rgba(255, 170, 212, 0.25);
-      top: 8px;
+      top: 5px;
     }
 
     .title-card::before {
-      left: 18px;
+      left: 16px;
       transform: rotate(-18deg);
     }
 
     .title-card::after {
-      right: 18px;
+      right: 16px;
       transform: rotate(18deg);
     }
 
     h1 {
       margin: 0;
       font-size: 34px;
-      line-height: 1.45;
       color: #ff6fb3;
       text-shadow: 2px 2px 0 #fff3a6;
       letter-spacing: 0.06em;
@@ -80,7 +77,7 @@
       margin-top: 10px;
       color: #7d6f92;
       font-weight: 900;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     .status {
@@ -145,9 +142,7 @@
 
     .guide {
       display: inline-block;
-      text-align: center;
       font-size: 20px;
-      line-height: 1.8;
       font-weight: 1000;
       color: #ff6fb3;
       background: #fff9d9;
@@ -156,10 +151,6 @@
       padding: 7px 16px;
       margin-top: 14px;
       box-shadow: 0 4px 0 #ffe3a6;
-    }
-
-    .buttons-wrap {
-      text-align: center;
     }
 
     .click-caption {
@@ -171,6 +162,10 @@
       border: 2px solid #cbb7ff;
       border-radius: 999px;
       font-weight: 1000;
+    }
+
+    .buttons-wrap {
+      text-align: center;
     }
 
     .buttons {
@@ -186,9 +181,7 @@
       padding: 18px 8px;
       font-size: 24px;
       font-weight: 1000;
-      color: #ffffff;
-      background: linear-gradient(180deg, #ff9bd2, #ff6fb3);
-      box-shadow: 0 6px 0 #d94f92;
+      color: #fff;
       cursor: pointer;
       transition: transform 0.05s, box-shadow 0.05s, filter 0.15s;
     }
@@ -199,13 +192,11 @@
 
     button:active {
       transform: translateY(5px);
-      box-shadow: 0 1px 0 #d94f92;
     }
 
     button:disabled {
       opacity: 0.45;
       cursor: not-allowed;
-      transform: none;
     }
 
     .button-0 {
@@ -259,7 +250,9 @@
       display: none;
       text-align: center;
       border-color: #ffd36e;
-      box-shadow: 0 10px 0 #ffe3a6, 0 18px 28px rgba(166, 123, 50, 0.16);
+      box-shadow:
+        0 10px 0 #ffe3a6,
+        0 18px 28px rgba(166, 123, 50, 0.16);
     }
 
     .result-title {
@@ -269,16 +262,29 @@
       margin-bottom: 12px;
     }
 
+    .answer-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
     .answer {
       display: inline-block;
-      font-size: 64px;
+      font-size: 44px;
       font-weight: 1000;
       color: #ff9f1c;
       letter-spacing: 0.18em;
       margin-left: 0.18em;
+      background: #fff8d8;
+      border: 3px solid #ffcf65;
+      border-radius: 22px;
+      padding: 12px 18px;
+      box-shadow: 0 6px 0 #ffe3a6;
       text-shadow:
         3px 3px 0 #fff,
-        6px 6px 0 #ffe5a9;
+        5px 5px 0 #ffe5a9;
     }
 
     .candidate-list {
@@ -304,7 +310,9 @@
     .history-card {
       display: none;
       border-color: #bca8ff;
-      box-shadow: 0 10px 0 #dcd4ff, 0 18px 28px rgba(95, 70, 166, 0.15);
+      box-shadow:
+        0 10px 0 #dcd4ff,
+        0 18px 28px rgba(95, 70, 166, 0.15);
     }
 
     .card-title {
@@ -350,7 +358,9 @@
 
     .help-card {
       border-color: #9ee8df;
-      box-shadow: 0 10px 0 #c5f4ee, 0 18px 28px rgba(70, 166, 150, 0.15);
+      box-shadow:
+        0 10px 0 #c5f4ee,
+        0 18px 28px rgba(70, 166, 150, 0.15);
       line-height: 1.9;
       font-weight: 800;
     }
@@ -360,18 +370,18 @@
       padding-left: 1.4em;
     }
 
-    .error {
-      color: #e95478;
-      font-weight: 1000;
-      line-height: 1.8;
-    }
-
     .small {
       font-size: 14px;
       color: #7d6f92;
       line-height: 1.8;
       font-weight: 800;
       margin-top: 10px;
+    }
+
+    .error {
+      color: #e95478;
+      font-weight: 1000;
+      line-height: 1.8;
     }
 
     .sparkle {
@@ -383,11 +393,7 @@
         padding: 10px;
       }
 
-      .title-card,
-      .main-card,
-      .result-card,
-      .history-card,
-      .help-card {
+      .card {
         padding: 16px;
         border-radius: 22px;
       }
@@ -401,7 +407,7 @@
       }
 
       .answer {
-        font-size: 48px;
+        font-size: 34px;
       }
 
       .buttons {
@@ -427,7 +433,7 @@
 
 <body>
   <div class="app">
-    <section class="title-card">
+    <section class="card title-card">
       <h1>ざんえいのぱすわーど</h1>
       <div class="subtitle">
         でてきたすうじを入れてね。<br>
@@ -435,20 +441,22 @@
       </div>
     </section>
 
-    <section class="main-card">
+    <section class="card">
       <div class="status">
-        <div class="badge badge-turn" id="turnBadge">1手目</div>
+        <div class="badge badge-turn" id="turnBadge">1回目</div>
         <div class="badge badge-candidate" id="candidateBadge">こうほが 16こあるよ</div>
-        <div class="badge badge-fixed">1手目は1111だよ</div>
+        <div class="badge badge-fixed">1回目は1111だよ</div>
       </div>
 
       <div class="question">
         <div class="question-label" id="questionLabel">このすうじを入れてね</div>
         <div class="number" id="currentGuess">1111</div>
+        <br>
+        <div class="guide" id="guideText">せいかいすうをくりっく⇒</div>
       </div>
 
       <div class="buttons-wrap">
-        <div class="click-caption">せいかいすうをくりっく</div>
+        <div class="click-caption">せいかいすうをくりっく⇒</div>
 
         <div class="buttons" id="hitButtons">
           <button class="button-0" onclick="inputHit(0)">0</button>
@@ -465,35 +473,101 @@
       </div>
     </section>
 
-    <section class="result-card" id="resultCard">
+    <section class="card result-card" id="resultCard">
       <div class="result-title" id="resultTitle"></div>
       <div id="resultBody"></div>
     </section>
 
-    <section class="history-card" id="historyCard">
+    <section class="card history-card" id="historyCard">
       <div class="card-title">やったこと</div>
       <div class="history" id="history"></div>
     </section>
 
-    <section class="help-card">
+    <section class="card help-card">
       <div class="card-title">つかいかた</div>
       <ul>
         <li>さいしょは <b>1111</b> を入れるよ。</li>
         <li>でたせいかいすうを 0〜4 からくりっく。</li>
         <li>つぎに入れるすうじが出るよ。</li>
-        <li>こたえが1つになったら、そのすうじを入れておわり。</li>
+        <li>こたえが複数あるときは、こうほをぜんぶ出すよ。</li>
       </ul>
     </section>
   </div>
 
   <script>
+    const tableRules = {
+      "1111:4": {
+        type: "answer",
+        answers: ["1111"]
+      },
+      "1111:0": {
+        type: "answer",
+        answers: ["2222"]
+      },
+
+      "1111:3": {
+        type: "next",
+        guess: "1122"
+      },
+      "1111:3|1122:3": {
+        type: "answer",
+        answers: ["1112", "1121"]
+      },
+      "1111:3|1122:1": {
+        type: "answer",
+        answers: ["1211", "2111"]
+      },
+
+      "1111:1": {
+        type: "next",
+        guess: "1122"
+      },
+      "1111:1|1122:3": {
+        type: "answer",
+        answers: ["1222", "2122"]
+      },
+      "1111:1|1122:1": {
+        type: "answer",
+        answers: ["2212", "2221"]
+      },
+      "1111:1|1122:0": {
+        type: "answer",
+        answers: ["2211"]
+      },
+      "1111:1|1122:4": {
+        type: "answer",
+        answers: ["1122"]
+      },
+
+      "1111:2": {
+        type: "next",
+        guess: "1122"
+      },
+      "1111:2|1122:2": {
+        type: "next",
+        guess: "1212"
+      },
+      "1111:2|1122:2|1212:0": {
+        type: "answer",
+        answers: ["2121"]
+      },
+      "1111:2|1122:2|1212:4": {
+        type: "answer",
+        answers: ["1212"]
+      },
+      "1111:2|1122:2|1212:2": {
+        type: "answer",
+        answers: ["1221", "2112"]
+      }
+    };
+
     const allAnswers = createAllAnswers();
 
     let state = {
       guess: "1111",
       turn: 1,
-      candidates: [...allAnswers],
       logs: [],
+      candidates: [...allAnswers],
       finished: false
     };
 
@@ -544,113 +618,40 @@
         return countHit(answer, state.guess) === hit;
       });
 
-      if (state.candidates.length === 0) {
+      const path = getPath();
+      const rule = tableRules[path];
+
+      if (!rule) {
         state.finished = true;
         render();
         showError();
         return;
       }
 
-      if (state.candidates.length === 1) {
+      if (rule.type === "answer") {
         state.finished = true;
+        state.candidates = [...rule.answers];
         render();
-        showAnswer(state.candidates[0]);
+        showAnswers(rule.answers);
         return;
       }
 
-      state.turn++;
-      state.guess = decideNextGuess(state.candidates, state.logs);
-
-      render();
-      showCandidates();
+      if (rule.type === "next") {
+        state.turn++;
+        state.guess = rule.guess;
+        render();
+        showCandidates();
+      }
     }
 
-    function decideNextGuess(candidates, logs) {
-      const path = logs.map(log => `${log.guess}:${log.hit}`).join("|");
-
-      const routeGuess = getRouteGuess(path, candidates);
-
-      if (routeGuess) {
-        return routeGuess;
-      }
-
-      return getBestGuess(candidates, logs);
-    }
-
-    function getRouteGuess(path, candidates) {
-      if (path === "1111:1") {
-        return "1122";
-      }
-
-      if (path === "1111:3") {
-        return "1122";
-      }
-
-      if (path === "1111:2") {
-        return "1112";
-      }
-
-      if (
-        path === "1111:2|1112:3" ||
-        path === "1111:2|1112:1"
-      ) {
-        return "1121";
-      }
-
-      if (candidates.length <= 2) {
-        return getBestGuess(candidates, []);
-      }
-
-      return null;
-    }
-
-    function getBestGuess(candidates, logs) {
-      const used = logs.map(log => log.guess);
-
-      let bestGuess = null;
-      let bestWorst = Infinity;
-      let bestGroupCount = -1;
-      let bestIsCandidate = false;
-
-      for (const guess of allAnswers) {
-        if (used.includes(guess) && allAnswers.length > used.length) {
-          continue;
-        }
-
-        const groups = {};
-
-        for (const answer of candidates) {
-          const hit = countHit(answer, guess);
-
-          if (!groups[hit]) {
-            groups[hit] = [];
-          }
-
-          groups[hit].push(answer);
-        }
-
-        const groupSizes = Object.values(groups).map(group => group.length);
-        const worst = Math.max(...groupSizes);
-        const groupCount = groupSizes.length;
-        const isCandidate = candidates.includes(guess);
-
-        if (
-          worst < bestWorst ||
-          (worst === bestWorst && groupCount > bestGroupCount) ||
-          (worst === bestWorst && groupCount === bestGroupCount && isCandidate && !bestIsCandidate)
-        ) {
-          bestGuess = guess;
-          bestWorst = worst;
-          bestGroupCount = groupCount;
-          bestIsCandidate = isCandidate;
-        }
-      }
-
-      return bestGuess || candidates[0];
+    function getPath() {
+      return state.logs.map(log => {
+        return `${log.guess}:${log.hit}`;
+      }).join("|");
     }
 
     function render() {
-      document.getElementById("turnBadge").textContent = `${state.turn}手目`;
+      document.getElementById("turnBadge").textContent = `${state.turn}回目`;
       document.getElementById("candidateBadge").textContent = `こうほが ${state.candidates.length}こあるよ`;
       document.getElementById("currentGuess").textContent = formatNumber(state.guess);
 
@@ -669,29 +670,6 @@
       setButtonsDisabled(state.finished);
     }
 
-    function renderHistory() {
-      const historyCard = document.getElementById("historyCard");
-      const history = document.getElementById("history");
-
-      if (state.logs.length === 0) {
-        historyCard.style.display = "none";
-        history.innerHTML = "";
-        return;
-      }
-
-      historyCard.style.display = "block";
-
-      history.innerHTML = state.logs.map(log => {
-        return `
-          <div class="history-row">
-            <div class="history-turn">${log.turn}手目</div>
-            <div class="history-num">${formatNumber(log.guess)}</div>
-            <div class="history-hit">${log.hit}こ</div>
-          </div>
-        `;
-      }).join("");
-    }
-
     function showCandidates() {
       const resultCard = document.getElementById("resultCard");
       const resultTitle = document.getElementById("resultTitle");
@@ -702,7 +680,7 @@
 
       resultBody.innerHTML = `
         <div class="small">
-          つぎに出たすうじを入れて、せいかいすうをくりっく
+          つぎに出たすうじを入れて、せいかいすうをくりっく⇒
         </div>
         <div class="candidate-list">
           ${state.candidates.map(answer => {
@@ -712,18 +690,33 @@
       `;
     }
 
-    function showAnswer(answer) {
+    function showAnswers(answers) {
       const resultCard = document.getElementById("resultCard");
       const resultTitle = document.getElementById("resultTitle");
       const resultBody = document.getElementById("resultBody");
 
       resultCard.style.display = "block";
-      resultTitle.innerHTML = `<span class="sparkle">✦</span> こたえはこれ <span class="sparkle">✦</span>`;
 
+      if (answers.length === 1) {
+        resultTitle.innerHTML = `<span class="sparkle">✦</span> こたえはこれ <span class="sparkle">✦</span>`;
+        resultBody.innerHTML = `
+          <div class="answer-list">
+            <div class="answer">${formatNumber(answers[0])}</div>
+          </div>
+          <div class="small">このすうじを入れておわり。</div>
+        `;
+        return;
+      }
+
+      resultTitle.innerHTML = `<span class="sparkle">✦</span> こたえのこうほが ${answers.length}こあるよ <span class="sparkle">✦</span>`;
       resultBody.innerHTML = `
-        <div class="answer">${formatNumber(answer)}</div>
         <div class="small">
-          このすうじを入れておわり。
+          この中のどれかだよ。複数出たときは、こうほをぜんぶ表示してるよ。
+        </div>
+        <div class="answer-list">
+          ${answers.map(answer => {
+            return `<div class="answer">${formatNumber(answer)}</div>`;
+          }).join("")}
         </div>
       `;
     }
@@ -744,6 +737,29 @@
       `;
     }
 
+    function renderHistory() {
+      const historyCard = document.getElementById("historyCard");
+      const history = document.getElementById("history");
+
+      if (state.logs.length === 0) {
+        historyCard.style.display = "none";
+        history.innerHTML = "";
+        return;
+      }
+
+      historyCard.style.display = "block";
+
+      history.innerHTML = state.logs.map(log => {
+        return `
+          <div class="history-row">
+            <div class="history-turn">${log.turn}回目</div>
+            <div class="history-num">${formatNumber(log.guess)}</div>
+            <div class="history-hit">${log.hit}こ</div>
+          </div>
+        `;
+      }).join("");
+    }
+
     function backStep() {
       if (snapshots.length === 0) {
         return;
@@ -751,10 +767,7 @@
 
       state = snapshots.pop();
       render();
-      showCandidatesOrHide();
-    }
 
-    function showCandidatesOrHide() {
       const resultCard = document.getElementById("resultCard");
 
       if (state.logs.length === 0) {
@@ -762,10 +775,8 @@
         return;
       }
 
-      if (state.candidates.length === 1) {
-        showAnswer(state.candidates[0]);
-      } else if (state.candidates.length === 0) {
-        showError();
+      if (state.finished) {
+        showAnswers(state.candidates);
       } else {
         showCandidates();
       }
@@ -775,8 +786,8 @@
       state = {
         guess: "1111",
         turn: 1,
-        candidates: [...allAnswers],
         logs: [],
+        candidates: [...allAnswers],
         finished: false
       };
 
@@ -799,8 +810,8 @@
       return {
         guess: source.guess,
         turn: source.turn,
-        candidates: [...source.candidates],
         logs: source.logs.map(log => ({ ...log })),
+        candidates: [...source.candidates],
         finished: source.finished
       };
     }
